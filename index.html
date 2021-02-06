@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div v-if='books.length'>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>书籍名称</th>
+                    <th>出版日期</th>
+                    <th>价格</th>
+                    <th>购买数量</th>
+                    <th>操作</th>
+                </tr>
+            <tbody>
+                <tr v-for='(item,index) in books'>
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.data}}</td>
+                    <!-- <td>{{'￥' + item.price.toFixed(2)}}</td>   这个可以实现，但是不推荐使用  ，不能重复利用  最好的是使用方法实现-->
+                    <!-- <td>{{getFinalPrice(item.price)}}</td>  这个地方用方法实现也可以，但是vue里面提供了一个过滤器-->
+                    <!-- <td>{{getFinalPrice  | 过滤器}}</td> -->
+                    <td>{{ item.price  | showPrice}}</td>
+                    <td>
+                        <!-- 传递index是为了绑定当前行  设置disabled属性是为了当数量<=1时 禁止'-'按钮被点击-->
+                        <button @click='decreament(index)' :disabled='item.count <=1'>-</button>
+                        {{item.count}}
+                        <button @click='increament(index)'>+</button>
+                    </td>
+                    <td>
+                        <button @click='removeHander(index)'>移除</button>
+                    </td>
+                </tr>
+            </tbody>
+            </thead>
+        </table>
+        <h2>总价格：{{totalPrice |showPrice}}</h2>
+        </div>
+        <div v-else>
+            <h1>购物车为空</h1>
+        </div>
+    </div>
+    <script src="../vue.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
